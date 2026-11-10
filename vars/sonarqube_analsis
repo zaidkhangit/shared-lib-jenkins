@@ -1,0 +1,3 @@
+def call(String sonarapi, projname, projkey){
+   withenvironment(["sonarapi]){
+      sh "$SONAR_HONE/bin/sonar-scanner -Dsonar.projectName=
