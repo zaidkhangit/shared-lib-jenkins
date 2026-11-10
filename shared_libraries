@@ -38,5 +38,29 @@ pipeline{
                  }
               }
           }
+         stage('dependency_check'){
+            step{
+               script{
+                   owasp_dependency()
+                }
+            }
+         }
+        stage("sonarQube: code quality gates"){
+           step{
+              script{
+               sonarqube_code_quality()
+              }
+           }
+        }
+       stage('sonar_code analysis"){
+         steps(
+            script{
+                sonarqube_analysis(""sonar","wandeerlust","wanderlust")
+            }
+         }
+       }
+
+        
+                   
                 
            
