@@ -1,0 +1,42 @@
+@library("shared') _
+pipeline{
+   agent any
+   environment {
+      SONAR_HOME = tool "sonar"
+   }
+      parameter{
+          string(name: 'FRONTEND_DOCKER_TAG', defaultValue: '', descriptio: 'setting docker img for latesrt push')
+          string(name: 'BACKEND_DOCKER_TAG',  defaultValue: '', description: 'setting backend docker latestr img')
+      }
+      stages{
+         stage("validate parameteres"){
+            steps {
+               script {
+                  if (params.FRONTEND_DOCKER_TAG == '' || params.BACKEND_DOCKER_TAG == ''){
+                     error("FRONTEND_DOCKER_TAG AND BAKEND_DOCKER_TAG MUST BE PROVIDED") 
+                  }
+               }
+            }
+            stage("workspace cleanup"){
+               steps{
+                  script{
+                      cleanup()
+                  }
+               }
+           }
+           stage('git: code checkout'){
+              step{
+                  script {
+                      checkout("https://github.com/LondheShubham153/wanderlust-project.git","main")
+                  }
+              }   
+           }
+           stage('trivy: fikesystem scan'){
+              step{
+                 script{
+                     trivy_scan()
+                 }
+              }
+          }
+                
+           
