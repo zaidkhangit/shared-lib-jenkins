@@ -1,0 +1,5 @@
+def call(){
+  timeput(1s, unit: "minute"){
+     waitForQualityGate abortPipeline: false
+  }
+}
